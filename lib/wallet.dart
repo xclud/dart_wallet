@@ -1,13 +1,6 @@
 library wallet;
 
-/// Represents a private key.
-class PrivateKey {
-  /// Creates a random private key.
-  PrivateKey.random();
-}
-
-/// Represents a public key.
-class PublicKey {
-  /// Private contructor.
-  PublicKey._();
-}
+export 'src/random_bigint.dart';
+export 'src/secp256k1.dart';
+export 'src/private_key.dart';
+export 'src/public_key.dart';
