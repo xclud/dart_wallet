@@ -1,7 +1,7 @@
 import 'dart:math';
 
 /// Generates a random [BigInt] which is [length] bytes and is smaller than [max].
-BigInt generateRandomBigInt(int length, [BigInt? max = null]) {
+BigInt generateRandomBigInt(int length, [BigInt? max]) {
   final rnd = Random.secure();
 
   BigInt v;
