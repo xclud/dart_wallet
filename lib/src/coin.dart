@@ -1,9 +1,18 @@
 import 'dart:typed_data';
 
+import 'package:wallet/src/bigint.dart';
+import 'package:wallet/src/eip55.dart';
+import 'package:wallet/src/keccak.dart';
 import 'package:wallet/src/private_key.dart';
 import 'package:wallet/src/public_key.dart';
+import 'package:wallet/src/secp256k1.dart' as secp256k1;
+import 'package:hex/hex.dart' as hex;
+
+const ethereum = Ethereum();
 
 abstract class Coin {
+  const Coin();
+
   /// Creates a public key from the given private key.
   PrivateKey createPrivateKey(Uint8List seed);
   PublicKey createPublicKey(PrivateKey privateKey);
@@ -15,19 +24,30 @@ abstract class Coin {
 }
 
 class Ethereum extends Coin {
+  const Ethereum();
+
   @override
   PrivateKey createPrivateKey(Uint8List seed) {
-    throw UnimplementedError();
+    final bn = bigIntFromUint8List(seed);
+
+    return PrivateKey(bn);
   }
 
   @override
-  PublicKey createPublicKey(PrivateKey privateKey) {
-    throw UnimplementedError();
-  }
+  PublicKey createPublicKey(PrivateKey privateKey) =>
+      secp256k1.createPublicKey(privateKey, false);
 
   @override
   String createAddress(PublicKey publicKey) {
-    throw UnimplementedError();
+    final input = Uint8List.fromList(publicKey.value.skip(1).toList());
+
+    final address = keccak(input);
+    final w = address.skip(address.length - 20).toList();
+
+    final h = hex.HEX.encode(w);
+    final f = toChecksumAddress(h);
+
+    return '0x$f';
   }
 
   @override
