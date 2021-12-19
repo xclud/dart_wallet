@@ -1,6 +1,6 @@
 name: wallet
-description: Crypto wallet package for Dart and Flutter.
-version: 0.0.1
+description: Crypto wallet package for Bitcoin, Ethereum and Tron written in pure Dart.
+version: 0.0.2
 repository: https://github.com/xclud/dart_wallet
 homepage: https://github.com/xclud/dart_wallet
 
@@ -8,7 +8,9 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  decimal: ^2.0.0
+  pointycastle: ^3.4.0
 
 dev_dependencies:
-  lints: ^1.0.0
-  test: ^1.17.10
+  lints: ^1.0.1
+  test: ^1.20.0

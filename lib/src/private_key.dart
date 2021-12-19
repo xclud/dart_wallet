@@ -1,11 +1,8 @@
-import 'random_bigint.dart';
-
 /// Represents a private key.
 class PrivateKey {
-  /// Creates a random private key.
-  PrivateKey.random({int length = 32, BigInt? max})
-      : value = generateRandomBigInt(length, max);
+  /// Creates a private key.
+  const PrivateKey(this.value);
 
-  /// Secret value.
+  /// Value of the private key.
   final BigInt value;
 }

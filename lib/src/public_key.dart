@@ -1,5 +1,8 @@
 /// Represents a public key.
 class PublicKey {
-  /// Private contructor.
-  PublicKey._();
+  /// Creates a public key.
+  const PublicKey(this.value);
+
+  /// Value of the public key.
+  final BigInt value;
 }
