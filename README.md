@@ -1,4 +1,4 @@
-Crypto wallet package for Dart and Flutter.
+Crypto wallet package for Bitcoin, Ethereum and Tron written in pure Dart
 
 ## Features
 
