@@ -6,8 +6,6 @@ import 'package:wallet/src/private_key.dart';
 import 'package:wallet/src/public_key.dart';
 
 final _domainParams = p.ECCurve_secp256k1();
-final _keyParams = p.ECKeyGeneratorParameters(_domainParams);
-final _generator = p.ECKeyGenerator()..init(_keyParams);
 
 PublicKey createPublicKey(PrivateKey privateKey, bool compressed) {
   final q = _domainParams.G * privateKey.value;
@@ -26,4 +24,21 @@ Uint8List generateSignature(PrivateKey privateKey, Uint8List message) {
   var rs = signer.generateSignature(message);
 
   return toDER(rs as p.ECSignature);
+}
+
+bool verifySignature(
+    PublicKey publicKey, Uint8List message, Uint8List signature) {
+  var signer = p.ECDSASigner();
+
+  var q = _domainParams.curve.decodePoint(publicKey.value);
+  var pub = p.PublicKeyParameter(p.ECPublicKey(q, _domainParams));
+  signer.init(false, pub);
+
+  var rs = fromDER(signature);
+
+  var r = rs[0];
+  var s = rs[1];
+
+  var result = signer.verifySignature(message, p.ECSignature(r, s));
+  return result;
 }
