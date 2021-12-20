@@ -32,6 +32,8 @@ dependencies:
 
   wallet:
     path: ../
+  tron: any
+  web3dart: any
 
 
 dev_dependencies:

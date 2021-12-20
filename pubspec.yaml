@@ -1,6 +1,6 @@
 name: wallet
 description: Crypto wallet package for Bitcoin, Ethereum and Tron written in pure Dart.
-version: 0.0.2
+version: 0.0.3
 repository: https://github.com/xclud/dart_wallet
 homepage: https://github.com/xclud/dart_wallet
 
@@ -16,6 +16,7 @@ dependencies:
   hex: ^0.2.0
   pointycastle: ^3.4.0
   tron: ^0.0.1
+  web3dart: ^2.3.3
 
 dev_dependencies:
   lints: ^1.0.1
