@@ -12,8 +12,6 @@ import 'package:hex/hex.dart' as hex;
 const ethereum = Ethereum();
 const tron = Tron();
 
-const _tronAddressPrefix = [0x41];
-
 abstract class Coin {
   const Coin();
 
@@ -85,11 +83,7 @@ class Tron extends Coin {
     var input = Uint8List.fromList(publicKey.value.skip(1).toList());
     var address = keccak(input);
 
-    final w = address.skip(address.length - 20).toList();
-    final addr = <int>[];
-    //addr.addAll(_tronAddressPrefix);
-    addr.addAll(w);
-
+    final addr = address.skip(address.length - 20).toList();
     var end = Base58CheckCodec.bitcoin().encode(Base58CheckPayload(0x41, addr));
     return end;
   }
