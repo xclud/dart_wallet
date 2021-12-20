@@ -15,6 +15,7 @@ dependencies:
   decimal: ^2.0.0
   hex: ^0.2.0
   pointycastle: ^3.4.0
+  tron: ^0.0.1
 
 dev_dependencies:
   lints: ^1.0.1
