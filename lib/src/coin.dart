@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:pointycastle/digests/ripemd128.dart';
+import 'package:pointycastle/digests/ripemd160.dart';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:wallet/src/base58.dart';
 import 'package:wallet/src/bigint.dart';
@@ -31,6 +31,8 @@ abstract class Coin {
 class Bitcoin extends Coin {
   const Bitcoin();
 
+  final int version = 0;
+
   @override
   PrivateKey createPrivateKey(Uint8List seed) {
     final bn = bigIntFromUint8List(seed);
@@ -45,8 +47,9 @@ class Bitcoin extends Coin {
   @override
   String createAddress(PublicKey publicKey) {
     final input = publicKey.value;
-    final address = RIPEMD128Digest().process(SHA256Digest().process(input));
-    final addr = hex.HEX.encode(address);
+    final address = RIPEMD160Digest().process(SHA256Digest().process(input));
+    final addr =
+        Base58CheckCodec.bitcoin().encode(Base58CheckPayload(version, address));
     return addr;
   }
 

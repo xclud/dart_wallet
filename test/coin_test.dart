@@ -7,6 +7,48 @@ import 'package:wallet/src/coin.dart';
 
 void main() {
   group('Address From Private Key', () {
+    test('Bitcoin Address from PrivateKey', () {
+      final seed = [
+        4,
+        51,
+        163,
+        189,
+        216,
+        243,
+        43,
+        6,
+        119,
+        135,
+        59,
+        192,
+        19,
+        98,
+        88,
+        65,
+        161,
+        44,
+        154,
+        79,
+        107,
+        109,
+        201,
+        89,
+        76,
+        96,
+        141,
+        182,
+        90,
+        218,
+        14,
+        64,
+      ];
+      var sk = bitcoin.createPrivateKey(Uint8List.fromList(seed));
+      var pk = bitcoin.createPublicKey(sk);
+
+      var address = bitcoin.createAddress(pk);
+
+      expect(address, '17zosTvbKM1zo5BWoY5KrqYNUM2FKbs5Ld');
+    });
     test('Ethereum Address from PrivateKey', () {
       final seed = HEX.decode(
           'd494dbd9472bc342acd2397a46ae225702bc3610a710e8c4cc0af3927ed585bd');
