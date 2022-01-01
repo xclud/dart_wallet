@@ -6,8 +6,8 @@ import 'package:test/scaffolding.dart';
 import 'package:wallet/src/coin.dart';
 
 void main() {
-  group('Address From Private Key', () {
-    test('Bitcoin Address from PrivateKey', () {
+  group('Address From Private Key.', () {
+    test('Bitcoin Address from PrivateKey.', () {
       final seed = [
         4,
         51,
@@ -49,7 +49,7 @@ void main() {
 
       expect(address, '17zosTvbKM1zo5BWoY5KrqYNUM2FKbs5Ld');
     });
-    test('Ethereum Address from PrivateKey', () {
+    test('Ethereum Address from PrivateKey.', () {
       final seed = HEX.decode(
           'd494dbd9472bc342acd2397a46ae225702bc3610a710e8c4cc0af3927ed585bd');
       var sk = ethereum.createPrivateKey(Uint8List.fromList(seed));
@@ -60,7 +60,7 @@ void main() {
       expect(address, '0xC26B643D02817FeCEE8aDabd2745e33bc0bA0DED');
     });
 
-    test('Tron Address from PrivateKey', () {
+    test('Tron Address from PrivateKey.', () {
       final seed = HEX.decode(
           'c8fbaa501db9a87b5af2494927c5d0e95ec9ec0e7369cb0c77da6232ab09cf0b');
       var sk = tron.createPrivateKey(Uint8List.fromList(seed));

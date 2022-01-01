@@ -370,18 +370,18 @@ class ExtendedPrivateKey extends ExtendedKey {
     return ExtendedPrivateKey.master(Uint8List.fromList(seed), version);
   }
 
-  factory ExtendedPrivateKey.deserialize(Uint8List key) {
+  factory ExtendedPrivateKey.deserialize(Uint8List input) {
     var extendedPrivateKey = ExtendedPrivateKey(
-      version: _sublist(key, 0, 4),
-      depth: key[4],
-      parentFingerprint: _sublist(key, 5, 9),
-      childNumber: ByteData.view(_sublist(key, 9, 13).buffer).getInt32(0),
-      chainCode: _sublist(key, 13, 45),
-      key: _decodeBigInt(_sublist(key, 46, 78)),
+      version: _sublist(input, 0, 4),
+      depth: input[4],
+      parentFingerprint: _sublist(input, 5, 9),
+      childNumber: ByteData.view(_sublist(input, 9, 13).buffer).getInt32(0),
+      chainCode: _sublist(input, 13, 45),
+      key: _decodeBigInt(_sublist(input, 46, 78)),
     );
 
-    if (!extendedPrivateKey.verifyChecksum(_sublist(key, _lengthOfSerializedKey,
-        _lengthOfSerializedKey + _lengthOfChecksum))) {
+    if (!extendedPrivateKey.verifyChecksum(_sublist(input,
+        _lengthOfSerializedKey, _lengthOfSerializedKey + _lengthOfChecksum))) {
       throw InvalidChecksum();
     }
 
@@ -442,17 +442,17 @@ class ExtendedPublicKey extends ExtendedKey {
             parentFingerprint: parentFingerprint,
             chainCode: chainCode);
 
-  factory ExtendedPublicKey.deserialize(Uint8List key) {
+  factory ExtendedPublicKey.deserialize(Uint8List input) {
     var extendedPublickey = ExtendedPublicKey(
-      version: _sublist(key, 0, 4),
-      depth: key[4],
-      parentFingerprint: _sublist(key, 5, 9),
-      childNumber: ByteData.view(_sublist(key, 9, 13).buffer).getInt32(0),
-      chainCode: _sublist(key, 13, 45),
-      q: _decodeCompressedECPoint(_sublist(key, 45, 78)),
+      version: _sublist(input, 0, 4),
+      depth: input[4],
+      parentFingerprint: _sublist(input, 5, 9),
+      childNumber: ByteData.view(_sublist(input, 9, 13).buffer).getInt32(0),
+      chainCode: _sublist(input, 13, 45),
+      q: _decodeCompressedECPoint(_sublist(input, 45, 78)),
     );
 
-    if (!extendedPublickey.verifyChecksum(_sublist(key, 78, 82))) {
+    if (!extendedPublickey.verifyChecksum(_sublist(input, 78, 82))) {
       throw InvalidChecksum();
     }
 
