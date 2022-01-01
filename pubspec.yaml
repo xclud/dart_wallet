@@ -14,7 +14,7 @@ dependencies:
   crypto: ^3.0.1
   decimal: ^2.0.0
   hex: ^0.2.0
-  pointycastle: ^3.4.0
+  pointycastle: ^3.5.0
   tron: ^0.0.1
   web3dart: ^2.3.3
 

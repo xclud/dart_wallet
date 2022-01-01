@@ -1,4 +1,10 @@
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:web3dart/web3dart.dart';
+
+final credentials = EthPrivateKey.fromHex(
+    "0x31AEAA597FEEF7A2484D4BA925D0F4217216CE15574705930BE4A125174BB78E");
 
 void main() {
   runApp(const MyApp());
@@ -48,17 +54,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String _balance = '';
 
-  void _incrementCounter() {
+  void _getBalance() async {
+    var apiUrl =
+        "https://ropsten.infura.io/v3/5a0a67f99b224875abe8e15602c50a47";
+
+    var httpClient = Client();
+    var ethClient = Web3Client(apiUrl, httpClient);
+
+// You can now call rpc methods. This one will query the amount of Ether you own
+    final balance = await ethClient.getBalance(credentials.address);
+    final wei = balance.getValueInUnitBI(EtherUnit.wei);
+
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _balance = wei.toString();
     });
+
+    print(wei);
   }
 
   @override
@@ -95,19 +108,19 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Text(
+              'You have pushed the button this many times: ${credentials.address}',
             ),
             Text(
-              '$_counter',
+              _balance,
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _getBalance,
+        tooltip: 'Get Balance',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
