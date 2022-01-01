@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:pointycastle/digests/ripemd128.dart';
+import 'package:pointycastle/digests/sha256.dart';
 import 'package:wallet/src/base58.dart';
 import 'package:wallet/src/bigint.dart';
 import 'package:wallet/src/eip55.dart';
@@ -9,6 +11,7 @@ import 'package:wallet/src/public_key.dart';
 import 'package:wallet/src/secp256k1.dart' as secp256k1;
 import 'package:hex/hex.dart' as hex;
 
+const bitcoin = Bitcoin();
 const ethereum = Ethereum();
 const tron = Tron();
 
@@ -23,6 +26,40 @@ abstract class Coin {
   Uint8List generateSignature(PrivateKey privateKey, Uint8List message);
   bool verifySignature(
       PublicKey publicKey, Uint8List message, Uint8List signature);
+}
+
+class Bitcoin extends Coin {
+  const Bitcoin();
+
+  @override
+  PrivateKey createPrivateKey(Uint8List seed) {
+    final bn = bigIntFromUint8List(seed);
+
+    return PrivateKey(bn);
+  }
+
+  @override
+  PublicKey createPublicKey(PrivateKey privateKey) =>
+      secp256k1.createPublicKey(privateKey, true);
+
+  @override
+  String createAddress(PublicKey publicKey) {
+    final input = publicKey.value;
+    final address = RIPEMD128Digest().process(SHA256Digest().process(input));
+    final addr = hex.HEX.encode(address);
+    return addr;
+  }
+
+  @override
+  Uint8List generateSignature(PrivateKey privateKey, Uint8List message) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool verifySignature(
+      PublicKey publicKey, Uint8List message, Uint8List signature) {
+    throw UnimplementedError();
+  }
 }
 
 class Ethereum extends Coin {
