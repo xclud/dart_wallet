@@ -2,22 +2,33 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import "package:pointycastle/export.dart" as p;
-import 'package:wallet/src/bigint.dart';
+// ignore: implementation_imports
+import "package:web3dart/src/crypto/secp256k1.dart" as x;
 import 'package:wallet/src/private_key.dart';
 import 'package:wallet/src/public_key.dart';
-import 'package:collection/collection.dart';
+// ignore: implementation_imports
+import 'package:pointycastle/src/utils.dart' as utils;
+import 'package:web3dart/crypto.dart';
 
 final _domainParams = p.ECCurve_secp256k1();
 
 class Secp256k1 {
   Secp256k1._();
 
+  static p.ECPoint? decodePoint(Uint8List encoded) =>
+      _domainParams.curve.decodePoint(encoded);
+  static p.ECPublicKey createECPublicKey(Uint8List encoded) =>
+      p.ECPublicKey(decodePoint(encoded), _domainParams);
+
   static PublicKey createPublicKey(PrivateKey privateKey, bool compressed) {
     final q = _domainParams.G * privateKey.value;
-
     final publicParams = p.ECPublicKey(q, _domainParams);
 
     return PublicKey(publicParams.Q!.getEncoded(compressed));
+  }
+
+  static MsgSignature sign(PrivateKey privateKey, Uint8List message) {
+    return x.sign(message, utils.encodeBigIntAsUnsigned(privateKey.value));
   }
 
   static p.ECSignature generateSignature(
@@ -58,87 +69,15 @@ class Secp256k1 {
     return result;
   }
 
-  static int calculateRecoveryId(p.ECSignature signature, Uint8List hash,
-      Uint8List uncompressedPublicKey) {
-    var recId = -1;
+  static int calculateRecoveryId(MsgSignature signature) {
+    final header = signature.v & 0xFF;
+    // The header byte: 0x1B = first key with even y, 0x1C = first key with odd y,
+    //                  0x1D = second key with even y, 0x1E = second key with odd y
+    if (header < 27 || header > 34) {
+      throw Exception('Header byte out of range: $header');
+    }
 
-    for (var i = 0; i < 4; i++) {
-      var rec = recoverPubKey(i, signature, hash);
-      if (rec != null) {
-        var k = rec.getEncoded(false);
-        final eq = const ListEquality<int>().equals;
-        if (eq(k, uncompressedPublicKey)) {
-          recId = i;
-          break;
-        }
-      }
-    }
-    if (recId == -1) {
-      throw Exception(
-          'Could not construct a recoverable key. This should never happen.');
-    }
+    final recId = header - 27;
     return recId;
   }
-
-  static p.ECPoint? recoverPubKey(
-      int i, p.ECSignature ecSig, Uint8List message) {
-    final n = _domainParams.n;
-    final G = _domainParams.G;
-
-    final e = decodeBigIntWithSign(message);
-    final r = ecSig.r;
-    final s = ecSig.s;
-
-    // A set LSB signifies that the y-coordinate is odd
-    final isYOdd = i & 1;
-
-    // The more significant bit specifies whether we should use the
-    // first or second candidate key.
-    int isSecondKey = i >> 1;
-
-    // 1.1 Let x = r + jn
-    BigInt x = isSecondKey > 0 ? r + n : r;
-    final R = _domainParams.curve.decompressPoint(isYOdd, x);
-    final nR = (R * n)!;
-    if (!nR.isInfinity) {
-      throw Exception('nR is not a valid curve point');
-    }
-
-    BigInt eNeg = (-e) % n;
-    BigInt rInv = r.modInverse(n);
-
-    final Q = _sumOfTwoMultiplies(R, s, G, eNeg)! * rInv;
-    return Q;
-  }
-}
-
-p.ECPoint? _sumOfTwoMultiplies(p.ECPoint t, BigInt j, p.ECPoint x, BigInt k) {
-  int i = max(j.bitLength, k.bitLength) - 1;
-  var R = t.curve.infinity;
-  final both = t + x;
-
-  while (i >= 0) {
-    bool jBit = _testBit(j, i);
-    bool kBit = _testBit(k, i);
-
-    R = R!.twice();
-
-    if (jBit) {
-      if (kBit) {
-        R = R! + both;
-      } else {
-        R = R! + t;
-      }
-    } else if (kBit) {
-      R = R! + x;
-    }
-
-    --i;
-  }
-
-  return R;
-}
-
-bool _testBit(BigInt j, int n) {
-  return (j >> n).toUnsigned(1).toInt() == 1;
 }

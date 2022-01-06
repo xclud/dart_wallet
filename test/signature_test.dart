@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:hex/hex.dart';
-import 'package:pointycastle/ecc/api.dart';
+import 'package:pointycastle/export.dart';
 import 'package:test/test.dart';
 import 'package:wallet/src/bigint.dart';
 
@@ -9,6 +9,28 @@ import 'package:wallet/src/secp256k1.dart';
 import 'package:wallet/wallet.dart' as w;
 
 void main() {
+  test('Tron transaction signature verification.', () {
+    final sk = w.PrivateKey(BigInt.parse(
+        'c57304b3a53051600d7035fc593083810a8fa250e6a7a2803cf6a0f3c2750503',
+        radix: 16));
+    final message = Uint8List.fromList(HEX.decode(
+        '491c81e567b1cc3194e3c573fb433546b4f51c8ad7a363e7dfbbaea78d26aedc'));
+
+    final hash = SHA256Digest().process(message);
+    final sign = Secp256k1.sign(sk, hash);
+    final recId = Secp256k1.calculateRecoveryId(sign);
+
+    final signature = Secp256k1.generateSignature(sk, message, false);
+
+    final rHex = signature.r.toRadixString(16).padLeft(64, '0');
+    final sHex = signature.s.toRadixString(16).padLeft(64, '0');
+    final recHex = recId.toRadixString(16).padLeft(2, '0');
+
+    final txSig = '$rHex$sHex$recHex';
+
+    print(txSig);
+  });
+
   test('Tron transaction signature verification.', () {
     final sk = w.PrivateKey(BigInt.parse(
         'c57304b3a53051600d7035fc593083810a8fa250e6a7a2803cf6a0f3c2750503',
