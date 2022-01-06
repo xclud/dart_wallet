@@ -85,7 +85,7 @@ class Secp256k1 {
     final n = _domainParams.n;
     final G = _domainParams.G;
 
-    final e = bigIntFromUint8List(message);
+    final e = decodeBigIntWithSign(message);
     final r = ecSig.r;
     final s = ecSig.s;
 

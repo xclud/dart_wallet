@@ -37,7 +37,7 @@ class Bitcoin extends Coin {
 
   @override
   PrivateKey createPrivateKey(Uint8List seed) {
-    final bn = bigIntFromUint8List(seed);
+    final bn = decodeBigIntWithSign(seed);
 
     return PrivateKey(bn);
   }
@@ -74,7 +74,7 @@ class BitcoinBech32 extends Coin {
 
   @override
   PrivateKey createPrivateKey(Uint8List seed) {
-    final bn = bigIntFromUint8List(seed);
+    final bn = decodeBigIntWithSign(seed);
 
     return PrivateKey(bn);
   }
@@ -109,7 +109,7 @@ class Ethereum extends Coin {
 
   @override
   PrivateKey createPrivateKey(Uint8List seed) {
-    final bn = bigIntFromUint8List(seed);
+    final bn = decodeBigIntWithSign(seed);
 
     return PrivateKey(bn);
   }
@@ -148,7 +148,7 @@ class Tron extends Coin {
 
   @override
   PrivateKey createPrivateKey(Uint8List seed) {
-    final bn = bigIntFromUint8List(seed);
+    final bn = decodeBigIntWithSign(seed);
 
     return PrivateKey(bn);
   }

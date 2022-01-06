@@ -35,8 +35,8 @@ void main() {
     final signatureBytes = Uint8List.fromList(HEX.decode(
         '9a941ec8e4fd80a881ab8d32073597a55ec0ae1c62739d46bdc7ccd10ca0439f337efbaa0e5ab981baeb8196fbaec57cca9667e8404d47afcf1331d30f97495e00'));
 
-    final r = bigIntFromUint8List(signatureBytes.take(32).toList());
-    final s = bigIntFromUint8List(signatureBytes.skip(32).take(32).toList());
+    final r = decodeBigIntWithSign(signatureBytes.take(32).toList());
+    final s = decodeBigIntWithSign(signatureBytes.skip(32).take(32).toList());
     final signature = ECSignature(r, s);
 
     final result = Secp256k1.verifySignature(pk, message, signature);

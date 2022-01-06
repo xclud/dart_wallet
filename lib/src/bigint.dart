@@ -1,13 +1,12 @@
 import 'dart:typed_data';
-
-import 'package:hex/hex.dart';
+// ignore: implementation_imports
+import 'package:pointycastle/src/utils.dart' as utils;
 
 Uint8List bigIntToUint8List(BigInt bigInt) =>
     bigIntToByteData(bigInt).buffer.asUint8List();
 
-BigInt bigIntFromUint8List(List<int> input) {
-  final hexString = HEX.encode(input);
-  return BigInt.parse(hexString, radix: 16);
+BigInt decodeBigIntWithSign(List<int> input) {
+  return utils.decodeBigIntWithSign(1, input);
 }
 
 ByteData bigIntToByteData(BigInt bigInt) {
