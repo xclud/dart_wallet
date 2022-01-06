@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import "package:pointycastle/export.dart" as p;
+import 'package:wallet/src/bigint.dart';
 import 'package:wallet/src/private_key.dart';
 import 'package:wallet/src/public_key.dart';
 import 'package:collection/collection.dart';
@@ -57,8 +58,8 @@ class Secp256k1 {
     return result;
   }
 
-  static int calculateRecoveryId(
-      p.ECSignature signature, BigInt hash, Uint8List uncompressedPublicKey) {
+  static int calculateRecoveryId(p.ECSignature signature, Uint8List hash,
+      Uint8List uncompressedPublicKey) {
     var recId = -1;
 
     for (var i = 0; i < 4; i++) {
@@ -79,15 +80,17 @@ class Secp256k1 {
     return recId;
   }
 
-  static p.ECPoint? recoverPubKey(int i, p.ECSignature ecSig, BigInt e) {
+  static p.ECPoint? recoverPubKey(
+      int i, p.ECSignature ecSig, Uint8List message) {
     final n = _domainParams.n;
     final G = _domainParams.G;
 
-    BigInt r = ecSig.r;
-    BigInt s = ecSig.s;
+    final e = bigIntFromUint8List(message);
+    final r = ecSig.r;
+    final s = ecSig.s;
 
     // A set LSB signifies that the y-coordinate is odd
-    int isYOdd = i & 1;
+    final isYOdd = i & 1;
 
     // The more significant bit specifies whether we should use the
     // first or second candidate key.
