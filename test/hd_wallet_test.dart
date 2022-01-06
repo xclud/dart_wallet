@@ -68,4 +68,21 @@ void main() {
       expect(bc, '0xc5fa0416d75D4e370c9ab865275a0D336F0c043f');
     });
   });
+
+  group('BIP44 Tron Test Vectors', () {
+    final mnemonic =
+        'into feed allow salt consider rebuild agree light lizard word foil bar';
+    final seed = mnemonicToSeed(mnemonic);
+    final root = ExtendedPrivateKey.master(seed, xprv);
+
+    final r = root.forPath("m/44'/195'/0'/0/0");
+
+    final sk = PrivateKey((r as ExtendedPrivateKey).key);
+    final pk = tron.createPublicKey(sk);
+    final bc = tron.createAddress(pk);
+
+    test('First Address Derivation.', () {
+      expect(bc, 'TNFRxT9A4Nx2wDU69keYpLcE8TCSyFztgi');
+    });
+  });
 }
