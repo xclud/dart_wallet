@@ -5,7 +5,7 @@ import 'package:pointycastle/ecc/api.dart';
 import 'package:test/test.dart';
 import 'package:wallet/src/bigint.dart';
 
-import 'package:wallet/src/secp256k1.dart' as secp256k1;
+import 'package:wallet/src/secp256k1.dart';
 import 'package:wallet/wallet.dart' as w;
 
 void main() {
@@ -17,9 +17,9 @@ void main() {
     final message = Uint8List.fromList(HEX.decode(
         '491c81e567b1cc3194e3c573fb433546b4f51c8ad7a363e7dfbbaea78d26aedc'));
 
-    final signature = secp256k1.generateSignature(sk, message);
+    final signature = Secp256k1.generateSignature(sk, message);
 
-    final result = secp256k1.verifySignature(pk, message, signature);
+    final result = Secp256k1.verifySignature(pk, message, signature);
 
     expect(result, true);
   });
@@ -39,7 +39,7 @@ void main() {
     final s = bigIntFromUint8List(signatureBytes.skip(32).take(32).toList());
     final signature = ECSignature(r, s);
 
-    final result = secp256k1.verifySignature(pk, message, signature);
+    final result = Secp256k1.verifySignature(pk, message, signature);
 
     expect(result, true);
   });

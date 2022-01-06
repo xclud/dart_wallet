@@ -9,7 +9,7 @@ import 'package:wallet/src/eip55.dart';
 import 'package:wallet/src/keccak.dart';
 import 'package:wallet/src/private_key.dart';
 import 'package:wallet/src/public_key.dart';
-import 'package:wallet/src/secp256k1.dart' as secp256k1;
+import 'package:wallet/src/secp256k1.dart';
 import 'package:hex/hex.dart' as hex;
 
 const bitcoin = Bitcoin();
@@ -44,7 +44,7 @@ class Bitcoin extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      secp256k1.createPublicKey(privateKey, true);
+      Secp256k1.createPublicKey(privateKey, true);
 
   @override
   String createAddress(PublicKey publicKey) {
@@ -81,7 +81,7 @@ class BitcoinBech32 extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      secp256k1.createPublicKey(privateKey, true);
+      Secp256k1.createPublicKey(privateKey, true);
 
   @override
   String createAddress(PublicKey publicKey) {
@@ -116,7 +116,7 @@ class Ethereum extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      secp256k1.createPublicKey(privateKey, false);
+      Secp256k1.createPublicKey(privateKey, false);
 
   @override
   String createAddress(PublicKey publicKey) {
@@ -155,7 +155,7 @@ class Tron extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      secp256k1.createPublicKey(privateKey, false);
+      Secp256k1.createPublicKey(privateKey, false);
 
   @override
   String createAddress(PublicKey publicKey) {
