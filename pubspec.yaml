@@ -12,11 +12,11 @@ dependencies:
   bip39: ^1.0.6
   collection: ^1.15.0
   crypto: ^3.0.1
-  decimal: ^2.0.0
+  decimal: ^2.1.0
   hex: ^0.2.0
-  pointycastle: ^3.5.0
+  pointycastle: ^3.5.1
   tron: ^0.0.1
-  web3dart: ^2.3.3
+  web3dart: ^2.3.4
 
 dev_dependencies:
   lints: ^1.0.1
