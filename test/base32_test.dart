@@ -3,7 +3,7 @@ import 'package:wallet/src/base32.dart';
 import 'dart:typed_data';
 
 void main() {
-  String _hexEncode(final Uint8List input) => [
+  String hexEncode(final Uint8List input) => [
         for (int i = 0; i < input.length; i++)
           input[i].toRadixString(16).padLeft(2, '0')
       ].join();
@@ -11,7 +11,7 @@ void main() {
   group('[Decode]', () {
     test('[RFC4648] JBSWY3DPEHPK3PXP -> 48656c6c6f21deadbeef', () {
       var decoded = base32.decode('JBSWY3DPEHPK3PXP');
-      var decodedString = _hexEncode(decoded);
+      var decodedString = hexEncode(decoded);
 
       expect(decodedString.toString(), equals('48656c6c6f21deadbeef'));
     });
@@ -23,7 +23,7 @@ void main() {
 
     test('[base32Hex] 91IMOR3F47FARFNF -> 48656c6c6f21deadbeef', () {
       var decoded = base32Hex.decode('91IMOR3F47FARFNF');
-      var decodedString = _hexEncode(decoded);
+      var decodedString = hexEncode(decoded);
 
       expect(decodedString.toString(), equals('48656c6c6f21deadbeef'));
     });
@@ -35,14 +35,14 @@ void main() {
 
     test('[crockford] 91JPRV3F47FAVFQF -> 48656c6c6f21deadbeef', () {
       var decoded = crockford.decode('91JPRV3F47FAVFQF');
-      var decodedString = _hexEncode(decoded);
+      var decodedString = hexEncode(decoded);
 
       expect(decodedString.toString(), equals('48656c6c6f21deadbeef'));
     });
 
     test('[crockford] 91JP-RV3F-47FA-VFQF- -> 48656c6c6f21deadbeef', () {
       var decoded = crockford.decode('91JP-RV3F-47FA-VFQF-');
-      var decodedString = _hexEncode(decoded);
+      var decodedString = hexEncode(decoded);
 
       expect(decodedString.toString(), equals('48656c6c6f21deadbeef'));
     });
@@ -54,7 +54,7 @@ void main() {
 
     test('[zbase32] jb1sa5dxr8xk5xzx -> 48656c6c6f21deadbeef', () {
       var decoded = zbase32.decode('jb1sa5dxr8xk5xzx');
-      var decodedString = _hexEncode(decoded);
+      var decodedString = hexEncode(decoded);
 
       expect(decodedString.toString(), equals('48656c6c6f21deadbeef'));
     });
@@ -66,7 +66,7 @@ void main() {
 
     test('[geohash] 91kqsv3g47gbvgrg -> 48656c6c6f21deadbeef', () {
       var decoded = geohash.decode('91kqsv3g47gbvgrg');
-      var decodedString = _hexEncode(decoded);
+      var decodedString = hexEncode(decoded);
 
       expect(decodedString.toString(), equals('48656c6c6f21deadbeef'));
     });

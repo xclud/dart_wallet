@@ -39,10 +39,10 @@ class Secp256k1 {
     var priv =
         p.PrivateKeyParameter(p.ECPrivateKey(privateKey.value, _domainParams));
 
-    final _sGen = Random.secure();
+    final sGen = Random.secure();
     var ran = p.SecureRandom('Fortuna');
     ran.seed(p.KeyParameter(
-        Uint8List.fromList(List.generate(32, (_) => _sGen.nextInt(255)))));
+        Uint8List.fromList(List.generate(32, (_) => sGen.nextInt(255)))));
 
     signer.init(true, p.ParametersWithRandom(priv, ran));
     var rs = signer.generateSignature(message);

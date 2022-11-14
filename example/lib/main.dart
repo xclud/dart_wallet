@@ -1,4 +1,4 @@
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
@@ -71,7 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
       _balance = wei.toString();
     });
 
-    print(wei);
+    if (kDebugMode) {
+      print(wei);
+    }
   }
 
   @override
@@ -113,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               _balance,
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
