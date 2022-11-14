@@ -14,6 +14,7 @@ final _domainParams = p.ECCurve_secp256k1();
 
 class Secp256k1 {
   Secp256k1._();
+  static p.ECDomainParameters get domainParams => _domainParams;
 
   static p.ECPoint? decodePoint(Uint8List encoded) =>
       _domainParams.curve.decodePoint(encoded);

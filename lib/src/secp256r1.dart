@@ -7,6 +7,8 @@ import 'package:wallet/src/public_key.dart';
 
 final _domainParams = p.ECCurve_secp256r1();
 
+p.ECDomainParameters get domainParams => _domainParams;
+
 PublicKey createPublicKey(PrivateKey privateKey, bool compressed) {
   final q = _domainParams.G * privateKey.value;
 

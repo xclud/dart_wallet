@@ -5,6 +5,7 @@ import 'package:pointycastle/digests/ripemd160.dart';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:wallet/src/base58.dart';
 import 'package:wallet/src/bigint.dart';
+import 'package:wallet/src/der.dart';
 import 'package:wallet/src/eip55.dart';
 import 'package:wallet/src/keccak.dart';
 import 'package:wallet/src/private_key.dart';
@@ -169,7 +170,12 @@ class Tron extends Coin {
 
   @override
   Uint8List generateSignature(PrivateKey privateKey, Uint8List message) {
-    throw UnimplementedError();
+    final signature = Secp256k1.generateSignature(privateKey, message)
+        .normalize(Secp256k1.domainParams);
+
+    final sgn = toDER(signature);
+
+    return sgn;
   }
 
   @override

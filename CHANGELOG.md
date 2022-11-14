@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Tron signature generation.
+
 ## 0.0.3
 
 * Improve package score.
