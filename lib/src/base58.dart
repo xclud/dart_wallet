@@ -1,8 +1,8 @@
-import "dart:convert";
-import "dart:typed_data";
+import 'dart:convert';
+import 'dart:typed_data';
 
-import "package:crypto/crypto.dart" show sha256;
-import "package:collection/collection.dart" show ListEquality;
+import 'package:crypto/crypto.dart' show sha256;
+import 'package:collection/collection.dart' show ListEquality;
 
 /// Encode and decode bytes to base58 strings.
 ///
@@ -12,9 +12,8 @@ import "package:collection/collection.dart" show ListEquality;
 /// use [Base58CheckCodec].
 
 class Base58Codec extends Codec<List<int>, String> {
-  final String alphabet;
-
   const Base58Codec(this.alphabet);
+  final String alphabet;
 
   @override
   Converter<List<int>, String> get encoder => Base58Encoder(alphabet);
@@ -25,13 +24,12 @@ class Base58Codec extends Codec<List<int>, String> {
 
 /// Encode bytes to a base58 string.
 class Base58Encoder extends Converter<List<int>, String> {
-  final String alphabet;
-
   const Base58Encoder(this.alphabet);
+  final String alphabet;
 
   @override
   String convert(List<int> input) {
-    if (input.isEmpty) return "";
+    if (input.isEmpty) return '';
 
     // copy bytes because we are going to change it
     input = Uint8List.fromList(input);
@@ -42,7 +40,7 @@ class Base58Encoder extends Converter<List<int>, String> {
       leadingZeroes++;
     }
 
-    String output = "";
+    String output = '';
     int startAt = leadingZeroes;
     while (startAt < input.length) {
       int mod = _divmod58(input, startAt);
@@ -77,9 +75,8 @@ class Base58Encoder extends Converter<List<int>, String> {
 
 /// Decode base58 strings to bytes.
 class Base58Decoder extends Converter<String, List<int>> {
-  final String alphabet;
-
   const Base58Decoder(this.alphabet);
+  final String alphabet;
 
   @override
   List<int> convert(String input) {
@@ -90,7 +87,7 @@ class Base58Decoder extends Converter<String, List<int>> {
     for (int i = 0; i < input.length; i++) {
       int charint = alphabet.indexOf(input[i]);
       if (charint < 0) {
-        throw FormatException("Invalid input formatting for Base58 decoding.");
+        throw FormatException('Invalid input formatting for Base58 decoding.');
       }
       input58[i] = charint;
     }
@@ -132,9 +129,9 @@ class Base58Decoder extends Converter<String, List<int>> {
 }
 
 class Base58CheckPayload {
+  const Base58CheckPayload(this.version, this.payload);
   final int version;
   final List<int> payload;
-  const Base58CheckPayload(this.version, this.payload);
   @override
   bool operator ==(Object other) =>
       other is Base58CheckPayload &&
@@ -154,26 +151,26 @@ class Base58CheckPayload {
 /// For all details about Base58Check, see the Bitcoin wiki page:
 /// https://en.bitcoin.it/wiki/Base58Check_encoding
 class Base58CheckCodec extends Codec<Base58CheckPayload, String> {
+  Base58CheckCodec(this.alphabet)
+      : _encoder = Base58CheckEncoder(alphabet),
+        _decoder = Base58CheckDecoder(alphabet);
+
+  /// A codec that works with the Ripple alphabet and the SHA256 hash function.
+  Base58CheckCodec.ripple() : this(rippleAlphabet);
+
+  /// A codec that works with the Bitcoin alphabet and the SHA256 hash function.
+  Base58CheckCodec.bitcoin() : this(bitcoinAlphabet);
+
   static const bitcoinAlphabet =
-      "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+      '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
   static const rippleAlphabet =
-      "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz";
+      'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz';
 
   final String alphabet;
 
   Base58CheckEncoder _encoder;
   Base58CheckDecoder _decoder;
-
-  Base58CheckCodec(this.alphabet)
-      : _encoder = Base58CheckEncoder(alphabet),
-        _decoder = Base58CheckDecoder(alphabet);
-
-  /// A codec that works with the Bitcoin alphabet and the SHA256 hash function.
-  Base58CheckCodec.bitcoin() : this(bitcoinAlphabet);
-
-  /// A codec that works with the Ripple alphabet and the SHA256 hash function.
-  Base58CheckCodec.ripple() : this(rippleAlphabet);
 
   @override
   Converter<Base58CheckPayload, String> get encoder => _encoder;
@@ -186,9 +183,8 @@ class Base58CheckCodec extends Codec<Base58CheckPayload, String> {
 }
 
 class Base58CheckEncoder extends Converter<Base58CheckPayload, String> {
-  final String alphabet;
-
   const Base58CheckEncoder(this.alphabet);
+  final String alphabet;
 
   @override
   String convert(Base58CheckPayload input) {
@@ -204,9 +200,8 @@ class Base58CheckEncoder extends Converter<Base58CheckPayload, String> {
 List<int> _hash(List<int> b) => sha256.convert(sha256.convert(b).bytes).bytes;
 
 class Base58CheckDecoder extends Converter<String, Base58CheckPayload> {
-  final String alphabet;
-
   const Base58CheckDecoder(this.alphabet);
+  final String alphabet;
 
   @override
   Base58CheckPayload convert(String input) => _convert(input, true);
@@ -218,13 +213,13 @@ class Base58CheckDecoder extends Converter<String, Base58CheckPayload> {
     List<int> bytes = Base58Decoder(alphabet).convert(encoded);
     if (bytes.length < 5) {
       throw FormatException(
-          "Invalid Base58Check encoded string: must be at least size 5");
+          'Invalid Base58Check encoded string: must be at least size 5');
     }
     List<int> checksum = _hash(bytes.sublist(0, bytes.length - 4));
     List<int> providedChecksum = bytes.sublist(bytes.length - 4, bytes.length);
     if (validateChecksum &&
         !ListEquality().equals(providedChecksum, checksum.sublist(0, 4))) {
-      throw FormatException("Invalid checksum in Base58Check encoding.");
+      throw FormatException('Invalid checksum in Base58Check encoding.');
     }
     return Base58CheckPayload(bytes[0], bytes.sublist(1, bytes.length - 4));
   }

@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import "package:pointycastle/export.dart" as p;
+import 'package:pointycastle/export.dart' as p;
 import 'package:wallet/src/der.dart';
 import 'package:wallet/src/private_key.dart';
 import 'package:wallet/src/public_key.dart';

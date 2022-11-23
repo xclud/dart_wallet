@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import "package:pointycastle/export.dart" as p;
+import 'package:pointycastle/export.dart' as p;
 // ignore: implementation_imports
-import "package:web3dart/src/crypto/secp256k1.dart" as x;
+import 'package:web3dart/src/crypto/secp256k1.dart' as x;
 import 'package:wallet/src/private_key.dart';
 import 'package:wallet/src/public_key.dart';
 // ignore: implementation_imports
