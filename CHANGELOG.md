@@ -1,3 +1,7 @@
+## 0.0.5
+
+* BIP39 Mnemonic Seed Generation.
+
 ## 0.0.4
 
 * Tron signature generation.
