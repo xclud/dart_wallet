@@ -1,12 +1,23 @@
 import 'package:test/test.dart';
-
-import 'package:bip39/bip39.dart';
 import 'package:wallet/wallet.dart';
 
 void main() {
   group('BIP84 Test Vectors.', () {
-    final mnemonic =
-        'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
+    final mnemonic = [
+      'abandon',
+      'abandon',
+      'abandon',
+      'abandon',
+      'abandon',
+      'abandon',
+      'abandon',
+      'abandon',
+      'abandon',
+      'abandon',
+      'abandon',
+      'about',
+    ];
+
     final seed = mnemonicToSeed(mnemonic);
     final root = ExtendedPrivateKey.master(seed, zprv);
     final r = root.forPath("m/84'/0'/0'/0/0");
@@ -31,8 +42,21 @@ void main() {
   });
 
   group('BIP84 Ethereum Test Vectors', () {
-    final mnemonic =
-        'kangaroo surface fuel you list inflict fatigue exist aspect appear oven cloud';
+    final mnemonic = [
+      'kangaroo',
+      'surface',
+      'fuel',
+      'you',
+      'list',
+      'inflict',
+      'fatigue',
+      'exist',
+      'aspect',
+      'appear',
+      'oven',
+      'cloud',
+    ];
+
     final seed = mnemonicToSeed(mnemonic);
     final root = ExtendedPrivateKey.master(seed, zprv);
 
@@ -53,8 +77,20 @@ void main() {
   });
 
   group('BIP44 Ethereum Test Vectors', () {
-    final mnemonic =
-        'into feed allow salt consider rebuild agree light lizard word foil bar';
+    final mnemonic = [
+      'into',
+      'feed',
+      'allow',
+      'salt',
+      'consider',
+      'rebuild',
+      'agree',
+      'light',
+      'lizard',
+      'word',
+      'foil',
+      'bar',
+    ];
     final seed = mnemonicToSeed(mnemonic);
     final root = ExtendedPrivateKey.master(seed, xprv);
 
@@ -70,8 +106,21 @@ void main() {
   });
 
   group('BIP44 Tron Test Vectors', () {
-    final mnemonic =
-        'into feed allow salt consider rebuild agree light lizard word foil bar';
+    final mnemonic = [
+      'into',
+      'feed',
+      'allow',
+      'salt',
+      'consider',
+      'rebuild',
+      'agree',
+      'light',
+      'lizard',
+      'word',
+      'foil',
+      'bar',
+    ];
+
     final seed = mnemonicToSeed(mnemonic);
     final root = ExtendedPrivateKey.master(seed, xprv);
 
