@@ -2,7 +2,7 @@
 ///
 /// The serialization contains a checksum, if the calculated checksum doesn't
 /// match the stored checksum this exception is thrown.
-class InvalidChecksum implements Exception {
+class InvalidBip32Checksum implements Exception {
   @override
   String toString() => 'Checksum verification failed';
 }

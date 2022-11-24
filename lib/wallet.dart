@@ -3,12 +3,15 @@ library wallet;
 export 'src/private_key.dart';
 export 'src/public_key.dart';
 export 'src/coin.dart';
-export 'src/secp256k1.dart';
 
 export 'src/bip32/bip32.dart';
 export 'src/bip32/exceptions.dart';
 
 export 'src/bip39/bip39.dart';
+
+export 'src/bech32/bech32.dart';
+export 'src/bech32/segwit.dart';
+export 'src/bech32/exceptions.dart';
 
 const zpub = [0x04, 0xb2, 0x47, 0x46];
 const zprv = [0x04, 0xb2, 0x43, 0x0c];

@@ -382,7 +382,7 @@ class ExtendedPrivateKey extends ExtendedKey {
 
     if (!extendedPrivateKey.verifyChecksum(_sublist(input,
         _lengthOfSerializedKey, _lengthOfSerializedKey + _lengthOfChecksum))) {
-      throw InvalidChecksum();
+      throw InvalidBip32Checksum();
     }
 
     return extendedPrivateKey;
@@ -453,7 +453,7 @@ class ExtendedPublicKey extends ExtendedKey {
     );
 
     if (!extendedPublickey.verifyChecksum(_sublist(input, 78, 82))) {
-      throw InvalidChecksum();
+      throw InvalidBip32Checksum();
     }
 
     return extendedPublickey;

@@ -1,8 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart' show sha256;
-
+import 'package:pointycastle/digests/sha256.dart';
 import 'package:wallet/src/bip39/pbkdf2.dart';
 import 'package:wallet/src/bip39/words/english.dart';
 
@@ -22,8 +21,8 @@ String _bytesToBinary(Uint8List bytes) {
 String _deriveChecksumBits(Uint8List entropy) {
   final ent = entropy.length * 8;
   final cs = ent ~/ 32;
-  final hash = sha256.convert(entropy);
-  return _bytesToBinary(Uint8List.fromList(hash.bytes)).substring(0, cs);
+  final hash = SHA256Digest().process(entropy);
+  return _bytesToBinary(hash).substring(0, cs);
 }
 
 Uint8List _randomBytes(int size) {

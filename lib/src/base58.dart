@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart' show sha256;
-import 'package:collection/collection.dart' show ListEquality;
+import 'package:pointycastle/digests/sha256.dart';
 
 /// Encode and decode bytes to base58 strings.
 ///
@@ -136,9 +135,9 @@ class Base58CheckPayload {
   bool operator ==(Object other) =>
       other is Base58CheckPayload &&
       version == other.version &&
-      const ListEquality().equals(payload, other.payload);
+      _areEqual(payload, other.payload);
   @override
-  int get hashCode => version.hashCode ^ const ListEquality().hash(payload);
+  int get hashCode => version.hashCode ^ hash(payload);
 }
 
 /// A codec for Base58Check, a binary-to-string encoding used
@@ -197,7 +196,8 @@ class Base58CheckEncoder extends Converter<Base58CheckPayload, String> {
   }
 }
 
-List<int> _hash(List<int> b) => sha256.convert(sha256.convert(b).bytes).bytes;
+List<int> _hash(List<int> b) =>
+    SHA256Digest().process(SHA256Digest().process(Uint8List.fromList(b)));
 
 class Base58CheckDecoder extends Converter<String, Base58CheckPayload> {
   const Base58CheckDecoder(this.alphabet);
@@ -218,9 +218,47 @@ class Base58CheckDecoder extends Converter<String, Base58CheckPayload> {
     List<int> checksum = _hash(bytes.sublist(0, bytes.length - 4));
     List<int> providedChecksum = bytes.sublist(bytes.length - 4, bytes.length);
     if (validateChecksum &&
-        !ListEquality().equals(providedChecksum, checksum.sublist(0, 4))) {
+        !_areEqual(providedChecksum, checksum.sublist(0, 4))) {
       throw FormatException('Invalid checksum in Base58Check encoding.');
     }
     return Base58CheckPayload(bytes[0], bytes.sublist(1, bytes.length - 4));
   }
+}
+
+bool _areEqual(List<int> left, List<int> right) {
+  if (identical(left, right)) {
+    return true;
+  }
+
+  if (left.length != right.length) {
+    return false;
+  }
+
+  for (int i = 0; i < left.length; i++) {
+    if (left[i] != right[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+int hash(List<int>? list) {
+  const int hashMask = 0x7fffffff;
+
+  if (list == null) return null.hashCode;
+  // Jenkins's one-at-a-time hash function.
+  // This code is almost identical to the one in IterableEquality, except
+  // that it uses indexing instead of iterating to get the elements.
+  var hash = 0;
+  for (var i = 0; i < list.length; i++) {
+    var c = list[i].hashCode;
+    hash = (hash + c) & hashMask;
+    hash = (hash + (hash << 10)) & hashMask;
+    hash ^= (hash >> 6);
+  }
+  hash = (hash + (hash << 3)) & hashMask;
+  hash ^= (hash >> 11);
+  hash = (hash + (hash << 15)) & hashMask;
+  return hash;
 }

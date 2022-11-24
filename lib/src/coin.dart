@@ -1,17 +1,17 @@
 import 'dart:typed_data';
 
-import 'package:bech32/bech32.dart';
+import 'package:convert/convert.dart';
+import 'package:eip55/eip55.dart';
 import 'package:pointycastle/digests/ripemd160.dart';
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:wallet/src/base58.dart';
+import 'package:wallet/src/bech32/segwit.dart';
 import 'package:wallet/src/bigint.dart';
 import 'package:wallet/src/der.dart';
-import 'package:wallet/src/eip55.dart';
 import 'package:wallet/src/keccak.dart';
 import 'package:wallet/src/private_key.dart';
 import 'package:wallet/src/public_key.dart';
-import 'package:wallet/src/secp256k1.dart';
-import 'package:hex/hex.dart' as hex;
+import 'package:sec/sec.dart';
 
 const bitcoin = Bitcoin();
 const bitcoinbech32 = BitcoinBech32();
@@ -45,7 +45,7 @@ class Bitcoin extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      Secp256k1.createPublicKey(privateKey, true);
+      PublicKey(Secp256k1.createPublicKey(privateKey.value, true));
 
   @override
   String createAddress(PublicKey publicKey) {
@@ -82,7 +82,7 @@ class BitcoinBech32 extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      Secp256k1.createPublicKey(privateKey, true);
+      PublicKey(Secp256k1.createPublicKey(privateKey.value, true));
 
   @override
   String createAddress(PublicKey publicKey) {
@@ -117,7 +117,7 @@ class Ethereum extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      Secp256k1.createPublicKey(privateKey, false);
+      PublicKey(Secp256k1.createPublicKey(privateKey.value, false));
 
   @override
   String createAddress(PublicKey publicKey) {
@@ -126,7 +126,7 @@ class Ethereum extends Coin {
     final address = keccak(input);
     final w = address.skip(address.length - 20).toList();
 
-    final h = hex.HEX.encode(w);
+    final h = hex.encode(w);
     final f = toChecksumAddress(h);
 
     return '0x$f';
@@ -156,7 +156,7 @@ class Tron extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      Secp256k1.createPublicKey(privateKey, false);
+      PublicKey(Secp256k1.createPublicKey(privateKey.value, false));
 
   @override
   String createAddress(PublicKey publicKey) {
@@ -170,7 +170,7 @@ class Tron extends Coin {
 
   @override
   Uint8List generateSignature(PrivateKey privateKey, Uint8List message) {
-    final signature = Secp256k1.generateSignature(privateKey, message)
+    final signature = Secp256k1.generateSignature(privateKey.value, message)
         .normalize(Secp256k1.domainParams);
 
     final sgn = toDER(signature);

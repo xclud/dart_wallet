@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:hex/hex.dart';
+import 'package:convert/convert.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 import 'package:wallet/src/coin.dart';
@@ -50,7 +50,7 @@ void main() {
       expect(address, '17zosTvbKM1zo5BWoY5KrqYNUM2FKbs5Ld');
     });
     test('Ethereum Address from PrivateKey.', () {
-      final seed = HEX.decode(
+      final seed = hex.decode(
           'd494dbd9472bc342acd2397a46ae225702bc3610a710e8c4cc0af3927ed585bd');
       var sk = ethereum.createPrivateKey(Uint8List.fromList(seed));
       var pk = ethereum.createPublicKey(sk);
@@ -61,7 +61,7 @@ void main() {
     });
 
     test('Tron Address from PrivateKey.', () {
-      final seed = HEX.decode(
+      final seed = hex.decode(
           'c8fbaa501db9a87b5af2494927c5d0e95ec9ec0e7369cb0c77da6232ab09cf0b');
       var sk = tron.createPrivateKey(Uint8List.fromList(seed));
       var pk = tron.createPublicKey(sk);

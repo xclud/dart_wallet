@@ -8,15 +8,10 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  bech32: ^0.2.1
-  collection: ^1.15.0
-  crypto: ^3.0.1
-  decimal: ^2.3.0
-  hex: ^0.2.0
   pointycastle: ^3.6.2
-  tron: ^0.0.2
-  web3dart: ^2.3.4
-  convert: ^3.0.0
+  convert: ^3.1.1
+  eip55: ^1.0.2
+  sec: ^1.0.0
 
 dev_dependencies:
   lints: ^2.0.0
