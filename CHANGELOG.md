@@ -1,3 +1,7 @@
+## 0.0.6
+
+* BECH32 Calculation.
+
 ## 0.0.5
 
 * BIP39 Mnemonic Seed Generation.
