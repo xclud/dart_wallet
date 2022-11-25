@@ -11,11 +11,11 @@ Uint8List toDER(ECSignature rs) {
   return seq.encode(encodingRule: ASN1EncodingRule.ENCODING_DER);
 }
 
-List<BigInt> fromDER(Uint8List input) {
+ECSignature fromDER(Uint8List input) {
   final parser = ASN1Parser(input);
 
   final r = parser.nextObject() as ASN1Integer;
   final s = parser.nextObject() as ASN1Integer;
 
-  return [r.integer!, s.integer!];
+  return ECSignature(r.integer!, s.integer!);
 }

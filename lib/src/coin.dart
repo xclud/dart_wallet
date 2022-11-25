@@ -4,11 +4,11 @@ import 'package:convert/convert.dart';
 import 'package:eip55/eip55.dart';
 import 'package:pointycastle/digests/ripemd160.dart';
 import 'package:pointycastle/digests/sha256.dart';
+import 'package:pointycastle/digests/keccak.dart';
 import 'package:wallet/src/base58.dart';
 import 'package:wallet/src/bech32/segwit.dart';
 import 'package:wallet/src/bigint.dart';
 import 'package:wallet/src/der.dart';
-import 'package:wallet/src/keccak.dart';
 import 'package:wallet/src/private_key.dart';
 import 'package:wallet/src/public_key.dart';
 import 'package:sec/sec.dart';
@@ -45,7 +45,7 @@ class Bitcoin extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      PublicKey(Secp256k1.createPublicKey(privateKey.value, true));
+      PublicKey(EC.secp256k1.createPublicKey(privateKey.value, true));
 
   @override
   String createAddress(PublicKey publicKey) {
@@ -64,14 +64,18 @@ class Bitcoin extends Coin {
   @override
   bool verifySignature(
       PublicKey publicKey, Uint8List message, Uint8List signature) {
-    throw UnimplementedError();
+    final sgn = fromDER(signature);
+
+    final result = EC.secp256k1.verifySignature(publicKey.value, message, sgn);
+
+    return result;
   }
 }
 
 class BitcoinBech32 extends Coin {
-  const BitcoinBech32();
+  const BitcoinBech32([this.version = 0]);
 
-  final int version = 0;
+  final int version;
 
   @override
   PrivateKey createPrivateKey(Uint8List seed) {
@@ -82,7 +86,7 @@ class BitcoinBech32 extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      PublicKey(Secp256k1.createPublicKey(privateKey.value, true));
+      PublicKey(EC.secp256k1.createPublicKey(privateKey.value, true));
 
   @override
   String createAddress(PublicKey publicKey) {
@@ -101,7 +105,11 @@ class BitcoinBech32 extends Coin {
   @override
   bool verifySignature(
       PublicKey publicKey, Uint8List message, Uint8List signature) {
-    throw UnimplementedError();
+    final sgn = fromDER(signature);
+
+    final result = EC.secp256k1.verifySignature(publicKey.value, message, sgn);
+
+    return result;
   }
 }
 
@@ -117,13 +125,13 @@ class Ethereum extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      PublicKey(Secp256k1.createPublicKey(privateKey.value, false));
+      PublicKey(EC.secp256k1.createPublicKey(privateKey.value, false));
 
   @override
   String createAddress(PublicKey publicKey) {
-    final input = Uint8List.fromList(publicKey.value.skip(1).toList());
+    final input = publicKey.value.sublist(1);
 
-    final address = keccak(input);
+    final address = KeccakDigest(256).process(input);
     final w = address.skip(address.length - 20).toList();
 
     final h = hex.encode(w);
@@ -139,8 +147,15 @@ class Ethereum extends Coin {
 
   @override
   bool verifySignature(
-      PublicKey publicKey, Uint8List message, Uint8List signature) {
-    throw UnimplementedError();
+    PublicKey publicKey,
+    Uint8List message,
+    Uint8List signature,
+  ) {
+    final sgn = fromDER(signature);
+
+    final result = EC.secp256k1.verifySignature(publicKey.value, message, sgn);
+
+    return result;
   }
 }
 
@@ -156,12 +171,12 @@ class Tron extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      PublicKey(Secp256k1.createPublicKey(privateKey.value, false));
+      PublicKey(EC.secp256k1.createPublicKey(privateKey.value, false));
 
   @override
   String createAddress(PublicKey publicKey) {
     var input = Uint8List.fromList(publicKey.value.skip(1).toList());
-    var address = keccak(input);
+    var address = KeccakDigest(256).process(input);
 
     final addr = address.skip(address.length - 20).toList();
     var end = Base58CheckCodec.bitcoin().encode(Base58CheckPayload(0x41, addr));
@@ -170,8 +185,7 @@ class Tron extends Coin {
 
   @override
   Uint8List generateSignature(PrivateKey privateKey, Uint8List message) {
-    final signature = Secp256k1.generateSignature(privateKey.value, message)
-        .normalize(Secp256k1.domainParams);
+    final signature = EC.secp256k1.generateSignature(privateKey.value, message);
 
     final sgn = toDER(signature);
 
@@ -180,7 +194,14 @@ class Tron extends Coin {
 
   @override
   bool verifySignature(
-      PublicKey publicKey, Uint8List message, Uint8List signature) {
-    throw UnimplementedError();
+    PublicKey publicKey,
+    Uint8List message,
+    Uint8List signature,
+  ) {
+    final sgn = fromDER(signature);
+
+    final result = EC.secp256k1.verifySignature(publicKey.value, message, sgn);
+
+    return result;
   }
 }

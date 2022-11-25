@@ -17,9 +17,9 @@ void main() {
     final message = Uint8List.fromList(hex.decode(
         '491c81e567b1cc3194e3c573fb433546b4f51c8ad7a363e7dfbbaea78d26aedc'));
 
-    final signature = Secp256k1.generateSignature(sk.value, message);
+    final signature = EC.secp256k1.generateSignature(sk.value, message);
 
-    final result = Secp256k1.verifySignature(pk.value, message, signature);
+    final result = EC.secp256k1.verifySignature(pk.value, message, signature);
 
     expect(result, true);
   });
@@ -39,7 +39,7 @@ void main() {
     final s = decodeBigIntWithSign(signatureBytes.skip(32).take(32).toList());
     final signature = ECSignature(r, s);
 
-    final result = Secp256k1.verifySignature(pk.value, message, signature);
+    final result = EC.secp256k1.verifySignature(pk.value, message, signature);
 
     expect(result, true);
   });
