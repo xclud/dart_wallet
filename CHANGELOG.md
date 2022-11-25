@@ -1,3 +1,7 @@
+## 0.0.7
+
+* Dependencies updated.
+
 ## 0.0.6
 
 * BECH32 Calculation.
