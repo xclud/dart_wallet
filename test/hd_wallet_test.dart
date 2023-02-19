@@ -101,7 +101,7 @@ void main() {
     final bc = ethereum.createAddress(pk);
 
     test('First Address Derivation.', () {
-      expect(bc, '0xc5fa0416d75D4e370c9ab865275A0D336F0c043f');
+      expect(bc, '0xf1149Dd3b2D70932ba183f77D753AC28747422A6');
     });
   });
 

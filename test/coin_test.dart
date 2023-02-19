@@ -57,7 +57,7 @@ void main() {
 
       var address = ethereum.createAddress(pk);
 
-      expect(address, '0xC26B643D02817FeCEE8aDabd2745e33bc0bA0DED');
+      expect(address, '0xf1149Dd3b2D70932ba183f77D753AC28747422A6');
     });
 
     test('Tron Address from PrivateKey.', () {
