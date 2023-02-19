@@ -1,3 +1,7 @@
+## 0.0.9
+
+* Fix Ethereum address generation bug.
+
 ## 0.0.8
 
 * Signature generation for Ethereum.

@@ -125,7 +125,7 @@ class Ethereum extends Coin {
 
   @override
   PublicKey createPublicKey(PrivateKey privateKey) =>
-      PublicKey(EC.secp256k1.createPublicKey(privateKey.value, false));
+      PublicKey(EC.secp256k1.createPublicKey(privateKey.value, true));
 
   @override
   String createAddress(PublicKey publicKey) {
