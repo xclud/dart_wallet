@@ -1,3 +1,7 @@
+## 0.0.8
+
+* Signature generation for Ethereum.
+
 ## 0.0.7
 
 * Dependencies updated.

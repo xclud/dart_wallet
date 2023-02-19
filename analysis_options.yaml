@@ -3,9 +3,6 @@ include: package:lints/recommended.yaml
 analyzer:
   language:
     strict-raw-types: false
-  strong-mode:
-    implicit-casts: true
-    implicit-dynamic: false
   errors:
     always_declare_return_types: error
     always_specify_types: error
@@ -56,4 +53,3 @@ linter:
     public_member_api_docs: false
     sort_constructors_first: true
     sort_unnamed_constructors_first: true
-

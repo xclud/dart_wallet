@@ -142,7 +142,11 @@ class Ethereum extends Coin {
 
   @override
   Uint8List generateSignature(PrivateKey privateKey, Uint8List message) {
-    throw UnimplementedError();
+    final signature = EC.secp256k1.generateSignature(privateKey.value, message);
+
+    final sgn = toDER(signature);
+
+    return sgn;
   }
 
   @override
