@@ -1,3 +1,7 @@
+## 0.0.10
+
+* Introduce `EthereumAddress` class.
+
 ## 0.0.9
 
 * Fix Ethereum address generation bug.

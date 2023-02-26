@@ -1,4 +1,12 @@
+/// Crypto wallet package for Bitcoin, Ethereum and Tron written in pure Dart.
 library wallet;
+
+import 'package:convert/convert.dart' as convert;
+import 'dart:typed_data';
+
+import 'package:wallet/wallet.dart' as wallet;
+import 'package:wallet/src/equality.dart' as eq;
+import 'package:eip55/eip55.dart';
 
 export 'src/private_key.dart';
 export 'src/public_key.dart';
@@ -12,6 +20,9 @@ export 'src/bip39/bip39.dart';
 export 'src/bech32/bech32.dart';
 export 'src/bech32/segwit.dart';
 export 'src/bech32/exceptions.dart';
+
+part 'src/address.dart';
+part 'src/ethereum_address.dart';
 
 const zpub = [0x04, 0xb2, 0x47, 0x46];
 const zprv = [0x04, 0xb2, 0x43, 0x0c];

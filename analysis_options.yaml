@@ -1,6 +1,7 @@
 include: package:lints/recommended.yaml
-
 analyzer:
+  exclude:
+    - "**/*.g.dart"
   language:
     strict-raw-types: false
   errors:
@@ -47,7 +48,7 @@ analyzer:
     unused_import: error
 linter:
   rules:
-    always_use_package_imports: true
+    always_use_package_imports: false
     avoid_print: false
     prefer_single_quotes: true
     public_member_api_docs: false
