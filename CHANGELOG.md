@@ -1,3 +1,7 @@
+## 0.0.11
+
+* Adds `isValidTronAddress` helper class.
+
 ## 0.0.10
 
 * Introduce `EthereumAddress` class.
