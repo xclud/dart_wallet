@@ -29,3 +29,18 @@ final address = wallet.tron.createAddress(publicKey);
 
 print(address);
 ```
+
+### Validate a Tron address
+
+```dart
+import 'package:wallet/wallet.dart' as wallet;
+
+bool isValidTronAddress(String address) {
+  try {
+    final decoded = wallet.Base58CheckCodec.bitcoin().decode(v);
+    return decoded.version == 0x41;
+  } catch (e) {}
+
+  return false;
+}
+```
