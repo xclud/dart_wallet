@@ -1,4 +1,4 @@
-## 0.0.12
+## 0.0.12+1
 
 * Ethereum address creation handles uncompressed public keys.
 
