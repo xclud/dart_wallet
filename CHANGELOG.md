@@ -1,3 +1,7 @@
+## 0.0.12
+
+* Ethereum address creation handles uncompressed public keys.
+
 ## 0.0.11
 
 * Adds `isValidTronAddress` helper class.
