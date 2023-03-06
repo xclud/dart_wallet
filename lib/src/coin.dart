@@ -129,7 +129,7 @@ class Ethereum extends Coin {
 
   @override
   String createAddress(PublicKey publicKey) {
-    var compressed = EC.secp256k1.compressPublicKey(publicKey.value);
+    var compressed = EC.secp256k1.uncompressPublicKey(publicKey.value);
     final input = compressed.sublist(1);
 
     final address = KeccakDigest(256).process(input);
