@@ -39,6 +39,7 @@ analyzer:
     public_member_api_docs: error
     sized_box_for_whitespace: error
     sort_constructors_first: error
+    sort_pub_dependencies: error
     sort_unnamed_constructors_first: error
     use_function_type_syntax_for_parameters: error
     use_key_in_widget_constructors: error
@@ -53,4 +54,5 @@ linter:
     prefer_single_quotes: true
     public_member_api_docs: false
     sort_constructors_first: true
+    sort_pub_dependencies: true
     sort_unnamed_constructors_first: true
