@@ -34,15 +34,15 @@ class Base58Encoder extends Converter<List<int>, String> {
     input = Uint8List.fromList(input);
 
     // count number of leading zeros
-    int leadingZeroes = 0;
+    var leadingZeroes = 0;
     while (leadingZeroes < input.length && input[leadingZeroes] == 0) {
       leadingZeroes++;
     }
 
-    String output = '';
-    int startAt = leadingZeroes;
+    var output = '';
+    var startAt = leadingZeroes;
     while (startAt < input.length) {
-      int mod = _divmod58(input, startAt);
+      var mod = _divmod58(input, startAt);
       if (input[startAt] == 0) startAt++;
       output = alphabet[mod] + output;
     }
@@ -62,9 +62,9 @@ class Base58Encoder extends Converter<List<int>, String> {
   /// number -> number / 58
   /// returns number % 58
   static int _divmod58(List<int> number, int startAt) {
-    int remaining = 0;
-    for (int i = startAt; i < number.length; i++) {
-      int num = (0xFF & remaining) * 256 + number[i];
+    var remaining = 0;
+    for (var i = startAt; i < number.length; i++) {
+      var num = (0xFF & remaining) * 256 + number[i];
       number[i] = num ~/ 58;
       remaining = num % 58;
     }
@@ -83,8 +83,8 @@ class Base58Decoder extends Converter<String, List<int>> {
 
     // generate base 58 index list from input string
     var input58 = List<int>.filled(input.length, 0);
-    for (int i = 0; i < input.length; i++) {
-      int charint = alphabet.indexOf(input[i]);
+    for (var i = 0; i < input.length; i++) {
+      var charint = alphabet.indexOf(input[i]);
       if (charint < 0) {
         throw FormatException('Invalid input formatting for Base58 decoding.');
       }
@@ -92,17 +92,17 @@ class Base58Decoder extends Converter<String, List<int>> {
     }
 
     // count leading zeroes
-    int leadingZeroes = 0;
+    var leadingZeroes = 0;
     while (leadingZeroes < input58.length && input58[leadingZeroes] == 0) {
       leadingZeroes++;
     }
 
     // decode
-    Uint8List output = Uint8List(input.length);
-    int j = output.length;
-    int startAt = leadingZeroes;
+    var output = Uint8List(input.length);
+    var j = output.length;
+    var startAt = leadingZeroes;
     while (startAt < input58.length) {
-      int mod = _divmod256(input58, startAt);
+      var mod = _divmod256(input58, startAt);
       if (input58[startAt] == 0) startAt++;
       output[--j] = mod;
     }
@@ -117,9 +117,9 @@ class Base58Decoder extends Converter<String, List<int>> {
   /// number -> number / 256
   /// returns number % 256
   static int _divmod256(List<int> number58, int startAt) {
-    int remaining = 0;
-    for (int i = startAt; i < number58.length; i++) {
-      int num = 58 * remaining + (number58[i] & 0xFF);
+    var remaining = 0;
+    for (var i = startAt; i < number58.length; i++) {
+      var num = 58 * remaining + (number58[i] & 0xFF);
       number58[i] = num ~/ 256;
       remaining = num % 256;
     }
@@ -187,10 +187,10 @@ class Base58CheckEncoder extends Converter<Base58CheckPayload, String> {
 
   @override
   String convert(Base58CheckPayload input) {
-    Uint8List bytes = Uint8List(input.payload.length + 1 + 4);
+    var bytes = Uint8List(input.payload.length + 1 + 4);
     bytes[0] = 0xFF & input.version;
     bytes.setRange(1, bytes.length - 4, input.payload);
-    List<int> checksum = _hash(bytes.sublist(0, bytes.length - 4));
+    var checksum = _hash(bytes.sublist(0, bytes.length - 4));
     bytes.setRange(bytes.length - 4, bytes.length, checksum.getRange(0, 4));
     return Base58Encoder(alphabet).convert(bytes);
   }
@@ -210,13 +210,13 @@ class Base58CheckDecoder extends Converter<String, Base58CheckPayload> {
       _convert(encoded, false);
 
   Base58CheckPayload _convert(String encoded, bool validateChecksum) {
-    List<int> bytes = Base58Decoder(alphabet).convert(encoded);
+    var bytes = Base58Decoder(alphabet).convert(encoded);
     if (bytes.length < 5) {
       throw FormatException(
           'Invalid Base58Check encoded string: must be at least size 5');
     }
-    List<int> checksum = _hash(bytes.sublist(0, bytes.length - 4));
-    List<int> providedChecksum = bytes.sublist(bytes.length - 4, bytes.length);
+    var checksum = _hash(bytes.sublist(0, bytes.length - 4));
+    var providedChecksum = bytes.sublist(bytes.length - 4, bytes.length);
     if (validateChecksum &&
         !_areEqual(providedChecksum, checksum.sublist(0, 4))) {
       throw FormatException('Invalid checksum in Base58Check encoding.');
@@ -234,7 +234,7 @@ bool _areEqual(List<int> left, List<int> right) {
     return false;
   }
 
-  for (int i = 0; i < left.length; i++) {
+  for (var i = 0; i < left.length; i++) {
     if (left[i] != right[i]) {
       return false;
     }
@@ -244,7 +244,7 @@ bool _areEqual(List<int> left, List<int> right) {
 }
 
 int hash(List<int>? list) {
-  const int hashMask = 0x7fffffff;
+  const hashMask = 0x7fffffff;
 
   if (list == null) return null.hashCode;
   // Jenkins's one-at-a-time hash function.

@@ -2,10 +2,9 @@ import 'dart:typed_data';
 
 import 'package:convert/convert.dart';
 import 'package:pointycastle/export.dart';
+import 'package:sec/sec.dart';
 import 'package:test/test.dart';
 import 'package:wallet/src/bigint.dart';
-
-import 'package:sec/sec.dart';
 import 'package:wallet/wallet.dart' as w;
 
 void main() {

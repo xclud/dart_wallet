@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:wallet/src/bech32/exceptions.dart';
+import 'exceptions.dart';
 
 /// An instance of the default implementation of the Bech32Codec.
 const Bech32Codec bech32 = Bech32Codec();

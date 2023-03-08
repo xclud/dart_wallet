@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:wallet/src/bech32/bech32.dart';
-import 'package:wallet/src/bech32/exceptions.dart';
+import 'bech32.dart';
+import 'exceptions.dart';
 
 /// An instance of the default implementation of the SegwitCodec
 const SegwitCodec segwit = SegwitCodec();

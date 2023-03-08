@@ -2,8 +2,8 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:pointycastle/digests/sha256.dart';
-import 'package:wallet/src/bip39/pbkdf2.dart';
-import 'package:wallet/src/bip39/words/english.dart';
+import 'pbkdf2.dart';
+import 'words/english.dart';
 
 const int _sizeByte = 255;
 const _invalidMnemonic = 'Invalid mnemonic';

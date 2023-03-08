@@ -49,7 +49,7 @@ class Base32 {
   final bool _padded;
 
   static Map<String, int> _buildCharToIndexMap(String alphabet) {
-    Map<String, int> map = {};
+    final map = <String, int>{};
     for (var i = 0; i < 32; i++) {
       map[alphabet[i]] = i;
     }

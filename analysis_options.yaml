@@ -49,10 +49,22 @@ analyzer:
     unused_import: error
 linter:
   rules:
+    always_declare_return_types: true
     always_use_package_imports: false
+    avoid_bool_literals_in_conditional_expressions: true
     avoid_print: false
+    camel_case_types: true
+    comment_references: true
+    directives_ordering: true
+    no_leading_underscores_for_local_identifiers: true
+    omit_local_variable_types: true
+    prefer_relative_imports: true
     prefer_single_quotes: true
+    prefer_spread_collections: true
     public_member_api_docs: false
     sort_constructors_first: true
     sort_pub_dependencies: true
     sort_unnamed_constructors_first: true
+    throw_in_finally: true
+    type_annotate_public_apis: true
+    unawaited_futures: true

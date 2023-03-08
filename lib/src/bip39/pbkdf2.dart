@@ -18,7 +18,7 @@ Uint8List pbkdf2(
 
   derivator.init(Pbkdf2Parameters(salt, iterationCount, desiredKeyLength));
 
-  List<int> codeUnits = [];
+  final codeUnits = <int>[];
   for (final word in mnemonic) {
     codeUnits.addAll(word.codeUnits);
     codeUnits.add(32); //Space.

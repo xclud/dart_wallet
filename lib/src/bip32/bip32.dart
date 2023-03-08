@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:pointycastle/export.dart';
-import 'package:wallet/src/base58.dart';
-import 'package:wallet/wallet.dart';
 import 'package:convert/convert.dart';
+import 'package:pointycastle/export.dart';
 // ignore: implementation_imports
 import 'package:pointycastle/src/utils.dart' as utils;
+
+import '../../wallet.dart';
+import '../base58.dart';
 
 /// The Bitcoin curve
 final _curve = ECCurve_secp256k1();

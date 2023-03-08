@@ -81,7 +81,7 @@ class EthereumAddress extends Address implements Comparable<EthereumAddress> {
   /// characters or 20 bytes, but not prefixed with "0x".
   final String without0x;
 
-  /// Returns this address in a hexadecimal representation, like with [hex].
+  /// Returns this address in a hexadecimal representation, like with [convert.hex].
   /// The hexadecimal characters A-F in the address will be in lower- or
   /// uppercase depending on [EIP 55](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md).
   final String eip55;

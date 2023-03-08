@@ -1,6 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:test/test.dart';
 import 'package:wallet/src/base32.dart';
-import 'dart:typed_data';
 
 void main() {
   String hexEncode(final Uint8List input) => [
