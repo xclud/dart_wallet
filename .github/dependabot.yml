@@ -1,0 +1,14 @@
+version: 2
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: weekly
+      time: "09:00"
+    open-pull-requests-limit: 5
+  - package-ecosystem: "gradle"
+    directory: "/example/android"
+    schedule:
+      interval: weekly
+      time: "09:00"
