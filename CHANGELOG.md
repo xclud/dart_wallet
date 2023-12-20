@@ -1,4 +1,8 @@
-## 0.0.12+1
+## 0.0.13
+
+* Fixes a bug caused by pointcastle among 3.6 and 3.7.
+
+## 0.0.12
 
 * Ethereum address creation handles uncompressed public keys.
 
