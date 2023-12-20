@@ -1,4 +1,4 @@
-part of wallet;
+part of '../../wallet.dart';
 
 /// Validates the given tron address.
 bool isValidTronAddress(String address, [int version = 0x41]) {

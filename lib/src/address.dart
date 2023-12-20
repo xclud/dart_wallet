@@ -1,4 +1,4 @@
-part of wallet;
+part of '../wallet.dart';
 
 /// Represents an address.
 class Address {
