@@ -14,8 +14,20 @@ Uint8List toDER(ECSignature rs) {
 ECSignature fromDER(Uint8List input) {
   final parser = ASN1Parser(input);
 
-  final r = parser.nextObject() as ASN1Integer;
-  final s = parser.nextObject() as ASN1Integer;
+  final rr = parser.nextObject();
 
-  return ECSignature(r.integer!, s.integer!);
+  if (rr is ASN1Sequence) {
+    final r = rr.elements![0] as ASN1Integer;
+    final s = rr.elements![1] as ASN1Integer;
+
+    return ECSignature(r.integer!, s.integer!);
+  }
+
+  if (rr is ASN1Integer) {
+    final s = parser.nextObject() as ASN1Integer;
+
+    return ECSignature(rr.integer!, s.integer!);
+  }
+
+  throw Exception('Cannot parse.');
 }
