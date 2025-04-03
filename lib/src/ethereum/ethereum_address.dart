@@ -1,4 +1,4 @@
-part of '../wallet.dart';
+part of '../../wallet.dart';
 
 String _hexNo0x(Uint8List value) {
   return convert.hex.encode(value);

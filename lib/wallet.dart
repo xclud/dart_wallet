@@ -20,8 +20,11 @@ export 'src/private_key.dart';
 export 'src/public_key.dart';
 
 part 'src/address.dart';
-part 'src/ethereum_address.dart';
-part 'src/helpers/tron_helpers.dart';
+part 'src/ethereum/ethereum_address.dart';
+part 'src/ethereum/ether_amount.dart';
+part 'src/ethereum/ether_unit.dart';
+
+part 'src/tron/tron_helpers.dart';
 
 const zpub = [0x04, 0xb2, 0x47, 0x46];
 const zprv = [0x04, 0xb2, 0x43, 0x0c];

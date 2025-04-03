@@ -1,7 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-//import 'package:web3dart/web3dart.dart';
+// import 'package:http/http.dart';
+// import 'package:web3dart/web3dart.dart';
 
 // final credentials = EthPrivateKey.fromHex(
 //     "0x31AEAA597FEEF7A2484D4BA925D0F4217216CE15574705930BE4A125174BB78E");
@@ -54,26 +53,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _balance = '';
+  //String _balance = '';
 
   void _getBalance() async {
-    var apiUrl =
-        "https://ropsten.infura.io/v3/5a0a67f99b224875abe8e15602c50a47";
+//     var apiUrl =
+//         "https://ropsten.infura.io/v3/5a0a67f99b224875abe8e15602c50a47";
 
-    // var httpClient = Client();
-    // var ethClient = Web3Client(apiUrl, httpClient);
+//     var httpClient = Client();
+//     var ethClient = Web3Client(apiUrl, httpClient);
 
-// You can now call rpc methods. This one will query the amount of Ether you own
-    // final balance = await ethClient.getBalance(credentials.address);
-    // final wei = balance.getValueInUnitBI(EtherUnit.wei);
+// // You can now call rpc methods. This one will query the amount of Ether you own
+//     final balance = await ethClient.getBalance(credentials.address);
+//     final wei = balance.getValueInUnitBI(EtherUnit.wei);
 
-    setState(() {
-      //_balance = wei.toString();
-    });
+//     setState(() {
+//       _balance = wei.toString();
+//     });
 
-    if (kDebugMode) {
-      //print(wei);
-    }
+//     if (kDebugMode) {
+//       print(wei);
+//     }
   }
 
   @override
@@ -110,10 +109,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('' //${credentials.address}',
+            Text(
+                '' //You have pushed the button this many times: ${credentials.address}',
                 ),
             Text(
-              _balance,
+              '_balance',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],

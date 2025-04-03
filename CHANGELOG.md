@@ -1,3 +1,7 @@
+## 0.0.16
+
+- EtherUnit and EtherAmount.
+
 ## 0.0.15
 
 - EIP55 with and without `0x`. 
