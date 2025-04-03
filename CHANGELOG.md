@@ -1,3 +1,7 @@
+## 0.0.15
+
+- EIP55 with and without `0x`. 
+
 ## 0.0.14
 
 - pointcastle: 4.0.0
