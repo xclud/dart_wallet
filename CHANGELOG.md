@@ -1,3 +1,7 @@
+## 0.0.14
+
+- pointcastle: 4.0.0
+
 ## 0.0.13
 
 * Fixes a bug caused by pointcastle among 3.6 and 3.7.
