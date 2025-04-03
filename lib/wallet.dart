@@ -4,11 +4,11 @@ library wallet;
 import 'dart:typed_data';
 
 import 'package:convert/convert.dart' as convert;
-import 'package:convert/convert.dart';
 import 'package:eip55/eip55.dart';
 
 import 'src/base58.dart';
 import 'src/equality.dart' as eq;
+import 'src/formatting.dart';
 import 'wallet.dart' as wallet;
 
 export 'src/bech32/bech32.dart';
@@ -26,7 +26,6 @@ part 'src/ethereum/block_information.dart';
 part 'src/ethereum/ether_amount.dart';
 part 'src/ethereum/ether_unit.dart';
 part 'src/ethereum/ethereum_address.dart';
-part 'src/formatting.dart';
 part 'src/tron/tron_helpers.dart';
 
 const zpub = [0x04, 0xb2, 0x47, 0x46];

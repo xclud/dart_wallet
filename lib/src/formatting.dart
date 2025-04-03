@@ -1,4 +1,6 @@
-part of '../../wallet.dart';
+import 'dart:typed_data';
+
+import 'package:convert/convert.dart';
 
 /// If present, removes the 0x from the start of a hex-string.
 String strip0x(String hex) {
