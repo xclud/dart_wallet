@@ -21,14 +21,16 @@ class EthereumAddress extends Address implements Comparable<EthereumAddress> {
       : assert(value.length == _addressByteLength),
         without0x = _hexNo0x(value),
         with0x = _hexWith0x(value),
-        eip55 = _hexEip55(value),
+        eip55Without0x = _hexEip55(value),
+        eip55With0x = '0x${_hexEip55(value)}',
         super(value);
 
   const EthereumAddress._({
     required Uint8List value,
     required this.without0x,
     required this.with0x,
-    required this.eip55,
+    required this.eip55Without0x,
+    required this.eip55With0x,
   })  : assert(value.length == _addressByteLength),
         super(value);
 
@@ -63,7 +65,8 @@ class EthereumAddress extends Address implements Comparable<EthereumAddress> {
       value: Uint8List.fromList(bytes),
       without0x: hexNo0x.toLowerCase(),
       with0x: hexWith0x.toLowerCase(),
-      eip55: hexEip55,
+      eip55Without0x: hexEip55,
+      eip55With0x: '0x$hexEip55',
     );
   }
 
@@ -84,10 +87,15 @@ class EthereumAddress extends Address implements Comparable<EthereumAddress> {
   /// Returns this address in a hexadecimal representation, like with [convert.hex].
   /// The hexadecimal characters A-F in the address will be in lower- or
   /// uppercase depending on [EIP 55](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md).
-  final String eip55;
+  final String eip55Without0x;
+
+  /// Returns this address in a hexadecimal representation, like with [convert.hex].
+  /// The hexadecimal characters A-F in the address will be in lower- or
+  /// uppercase depending on [EIP 55](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md).
+  final String eip55With0x;
 
   @override
-  String toString() => eip55;
+  String toString() => eip55Without0x;
 
   @override
   bool operator ==(Object other) {
@@ -97,7 +105,7 @@ class EthereumAddress extends Address implements Comparable<EthereumAddress> {
 
   @override
   int get hashCode {
-    return eip55.hashCode;
+    return eip55Without0x.hashCode;
   }
 
   @override
