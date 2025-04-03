@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:web3dart/web3dart.dart';
+//import 'package:web3dart/web3dart.dart';
 
-final credentials = EthPrivateKey.fromHex(
-    "0x31AEAA597FEEF7A2484D4BA925D0F4217216CE15574705930BE4A125174BB78E");
+// final credentials = EthPrivateKey.fromHex(
+//     "0x31AEAA597FEEF7A2484D4BA925D0F4217216CE15574705930BE4A125174BB78E");
 
 void main() {
   runApp(const MyApp());
@@ -60,19 +60,19 @@ class _MyHomePageState extends State<MyHomePage> {
     var apiUrl =
         "https://ropsten.infura.io/v3/5a0a67f99b224875abe8e15602c50a47";
 
-    var httpClient = Client();
-    var ethClient = Web3Client(apiUrl, httpClient);
+    // var httpClient = Client();
+    // var ethClient = Web3Client(apiUrl, httpClient);
 
 // You can now call rpc methods. This one will query the amount of Ether you own
-    final balance = await ethClient.getBalance(credentials.address);
-    final wei = balance.getValueInUnitBI(EtherUnit.wei);
+    // final balance = await ethClient.getBalance(credentials.address);
+    // final wei = balance.getValueInUnitBI(EtherUnit.wei);
 
     setState(() {
-      _balance = wei.toString();
+      //_balance = wei.toString();
     });
 
     if (kDebugMode) {
-      print(wei);
+      //print(wei);
     }
   }
 
@@ -110,9 +110,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times: ${credentials.address}',
-            ),
+            Text('' //${credentials.address}',
+                ),
             Text(
               _balance,
               style: Theme.of(context).textTheme.headlineMedium,
