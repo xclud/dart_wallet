@@ -23,9 +23,11 @@ export 'src/public_key.dart';
 
 part 'src/address.dart';
 part 'src/ethereum/block_information.dart';
+part 'src/ethereum/block_number.dart';
 part 'src/ethereum/ether_amount.dart';
 part 'src/ethereum/ether_unit.dart';
 part 'src/ethereum/ethereum_address.dart';
+part 'src/ethereum/sync_information.dart';
 part 'src/tron/tron_helpers.dart';
 
 const zpub = [0x04, 0xb2, 0x47, 0x46];

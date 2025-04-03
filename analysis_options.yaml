@@ -17,6 +17,7 @@ analyzer:
     await_only_futures: error
     curly_braces_in_flow_control_structures: error
     dead_code: error
+    directives_ordering: error
     duplicate_import: error
     file_names: error
     invalid_assignment: error
