@@ -40,3 +40,21 @@ final isValid = wallet.isValidTronAddress(address);
 
 print(isValid); // True
 ```
+
+### Validate an Ethereum address
+
+```dart
+import 'package:wallet/wallet.dart' as wallet;
+
+const ethAddress = '0x52908400098527886E0F7030069857D2E4169EE7';
+// Verify EIP-55 checksum (accepts lowercase or uppercase as valid)
+final isValidEth = wallet.EthereumAddress.isEip55ValidEthereumAddress(ethAddress);
+print(isValidEth); // True
+
+// Parse and optionally enforce checksum
+final address = wallet.EthereumAddress.fromHex(
+  ethAddress,
+  enforceEip55: true,
+);
+print(address); // Mixed-case checksummed address without 0x prefix
+```

@@ -41,15 +41,27 @@ class EthereumAddress extends Address implements Comparable<EthereumAddress> {
     return EthereumAddress.fromHex(address);
   }
 
-  /// Parses an Ethereum address from the hexadecimal representation. The
-  /// representation must have a length of 20 bytes (or 40 hexadecimal chars),
-  /// and can optionally be prefixed with "0x".
-  factory EthereumAddress.fromHex(String hex) {
+  /// Parses an Ethereum address from the hexadecimal representation.
+  /// The representation must have a length of 20 bytes (or 40 hexadecimal chars),
+  /// and can optionally be prefixed with "0x". If [enforceEip55] is true,
+  /// mixed-case addresses must match the EIP-55 checksum; lowercase or
+  /// uppercase-only addresses are also accepted.
+  factory EthereumAddress.fromHex(
+    String hex, {
+    bool enforceEip55 = false,
+  }) {
     if (!_basicAddress.hasMatch(hex)) {
       throw ArgumentError.value(
         hex,
         'address',
         'Must be a hex string with a length of 40, optionally prefixed with "0x"',
+      );
+    }
+    if (enforceEip55 && !isEip55ValidEthereumAddress(hex)) {
+      throw ArgumentError.value(
+        hex,
+        'address',
+        'Address does not conform to EIP-55 checksum',
       );
     }
 
@@ -75,6 +87,29 @@ class EthereumAddress extends Address implements Comparable<EthereumAddress> {
 
   /// The length of an ethereum address, in bytes.
   static const _addressByteLength = 20;
+  /// Returns true if the Ethereum address is valid and conforms to the rules of EIP-55.
+  /// Fully lowercase or uppercase addresses are accepted. Mixed-case addresses
+  /// must match the checksum defined by EIP-55.
+  static bool isEip55ValidEthereumAddress(String address) {
+    // Basic hex string validation (40 hex chars, optional 0x prefix).
+    if (!_basicAddress.hasMatch(address)) {
+      return false;
+    }
+    // Remove 0x prefix if present.
+    final noPrefix = address.startsWith('0x') || address.startsWith('0X')
+        ? address.substring(2)
+        : address;
+    // All lowercase or all uppercase are valid without checksum.
+    if (noPrefix.toLowerCase() == noPrefix || noPrefix.toUpperCase() == noPrefix) {
+      return true;
+    }
+    // Mixed-case: verify against checksum.
+    try {
+      return toChecksumAddress(noPrefix) == noPrefix;
+    } catch (_) {
+      return false;
+    }
+  }
 
   /// A hexadecimal representation of this address, padded to a length of 40
   /// characters or 20 bytes, and prefixed with "0x".

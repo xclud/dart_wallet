@@ -1,3 +1,8 @@
+## 0.0.18
+
+- Add `enforceEip55` named option to `EthereumAddress.fromHex` to enforce EIP-55 checksums.
+- Add static `isEip55ValidEthereumAddress` helper for Ethereum address validation.
+
 ## 0.0.17
 
 - BlockInformation.
